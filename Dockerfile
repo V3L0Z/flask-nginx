@@ -13,13 +13,21 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     libssl-dev \
     libffi-dev \
-    python3-dev
+    python3-dev \
+    nginx \
+    supervisor 
 
-# Step 4: Install Flask dependencies
+# Step 5: Install Flask dependencies
 RUN pip install -r requirements.txt
 
-# Step 5: Expose the Flask port (3000)
-EXPOSE 3000
+# Step 6: Copy Nginx configuration
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
-# Step 6: Start the Flask app
-CMD ["python", "app.py"]
+# Step 7: Copy Supervisor configuration
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Step 8: Expose the Flask port (3000) and Nginx port (8080)
+EXPOSE 3000 8080
+
+# Step 9: Start Supervisor to manage both Nginx and Flask
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
