@@ -1,17 +1,26 @@
-# Use an official Python runtime as a parent image
+# Use an official Python image as the base
 FROM python:3.9
 
-# Set the working directory in the container
+# Install dependencies
+RUN apt-get update && apt-get install -y nginx supervisor
+
+# Set working directory
 WORKDIR /app
 
-# Copy the current directory contents into the container
-COPY . /app
+# Copy Flask app
+COPY app /app
 
-# Install dependencies
-RUN pip install flask
+# Install Python dependencies
+RUN pip install -r /app/requirements.txt
 
-# Expose port 3000
-EXPOSE 3000
+# Copy Nginx configuration
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
-# Run Flask app
-CMD ["python", "app.py"]
+# Copy Supervisor configuration
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Expose port 8080 for Google Cloud Run
+EXPOSE 8080
+
+# Start Supervisor (manages both Nginx & Flask)
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
