@@ -8,6 +8,13 @@ WORKDIR /app
 COPY app.py /app/
 COPY requirements.txt /app/
 
+# Step 4: Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libssl-dev \
+    libffi-dev \
+    python3-dev
+
 # Step 4: Install Flask dependencies
 RUN pip install -r requirements.txt
 
