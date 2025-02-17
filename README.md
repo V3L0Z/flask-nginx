@@ -2,6 +2,12 @@
 
 This project demonstrates how to deploy a Flask application using Docker and Nginx as a reverse proxy.
 
+How this will function is that Nginx wi0ll act as a middleman between the client(browser) and the server(flask). Nginx can act as a load balancer by taking in requests and sending them to the appropriate service.
+
+Project can be found here: https://flask-nginx-production.up.railway.app/
+By default the Nginx server will display its index.html file.
+For the flask app, traverse to https://flask-nginx-production.up.railway.app/flask
+
 ## Project Structure
 
 ## 📂 Project Structure
@@ -17,57 +23,3 @@ This project demonstrates how to deploy a Flask application using Docker and Ngi
   - 📄 `Dockerfile` – Docker configuration
   - 📄 `.gitignore` – Ignore unnecessary files
   - 📄 `README.md` – Project documentation
-
-## Prerequisites
-
-- Docker
-- Docker Compose
-
-## Setup
-
-1. **Clone the repository:**
-
-   ```sh
-   git clone https://github.com/v3l0z/flask-nginx.git
-   cd flask-nginx
-   ```
-
-2. **Create a [requirements.txt](http://_vscodecontentref_/4) file:**
-
-   ```sh
-   pip freeze > requirements.txt
-   ```
-
-3. **Build and run the Docker containers:**
-
-   ```sh
-   docker-compose up --build
-   ```
-
-## Nginx Configuration
-
-The Nginx configuration is located in [nginx.conf](http://_vscodecontentref_/5). It sets up a reverse proxy to forward requests from Nginx to the Flask application.
-
-```properties
-events {}
-
-http {
-    server {
-        listen 8080;
-        server_name localhost;
-
-        location / {
-            root /usr/local/Cellar/nginx/1.27.4/html;
-            index index.html;
-        }
-
-        location /flask {
-            proxy_pass http://localhost:3000/;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
-    }
-}
-```
