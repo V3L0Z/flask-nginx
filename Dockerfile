@@ -22,12 +22,13 @@ RUN pip install -r requirements.txt
 
 # Step 6: Copy Nginx configuration
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
+COPY nginx/index.html /usr/share/nginx/html/index.html
 
 # Step 7: Copy Supervisor configuration
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Step 8: Expose the Flask port (3000) and Nginx port (8080)
-EXPOSE 3000 8080
+# Step 8: Expose the Flask port (3001) and Nginx port (5000)
+EXPOSE 3001 5000
 
 # Step 9: Start Supervisor to manage both Nginx and Flask
 CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
