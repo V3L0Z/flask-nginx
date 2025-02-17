@@ -1,26 +1,18 @@
-# Use an official Python image as the base
-FROM python:3.9
+# Step 1: Use an official Python image as a base
+FROM python:3.9-slim
 
-# Install dependencies
-RUN apt-get update && apt-get install -y nginx supervisor
-
-# Set working directory
+# Step 2: Set the working directory for Flask
 WORKDIR /app
 
-# Copy Flask app
-COPY app.py /app
+# Step 3: Copy the Flask app and requirements.txt into the container
+COPY app.py /app/
+COPY requirements.txt /app/
 
-# Install Python dependencies
+# Step 4: Install Flask dependencies
 RUN pip install -r requirements.txt
 
-# Copy Nginx configuration
-COPY nginx/nginx.conf /etc/nginx/nginx.conf
+# Step 5: Expose the Flask port (3000)
+EXPOSE 3000
 
-# Copy Supervisor configuration
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-# Expose port 8080 for Google Cloud Run
-EXPOSE 8080
-
-# Start Supervisor (manages both Nginx & Flask)
-CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+# Step 6: Start the Flask app
+CMD ["python", "app.py"]
