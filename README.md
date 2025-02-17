@@ -4,13 +4,19 @@ This project demonstrates how to deploy a Flask application using Docker and Ngi
 
 ## Project Structure
 
-flask-nginx/
-app.py
-Dockerfile
-nginx/
-nginx.conf
-requirements.txt
-README.md
+## 📂 Project Structure
+
+- 📁 **project-root/**
+  - 📁 **app/** (Flask application)
+    - 📄 `app.py` – Flask app code
+    - 📄 `requirements.txt` – Python dependencies
+    - 📄 `wsgi.py` – Gunicorn entry point
+  - 📁 **nginx/** (Nginx configuration)
+    - 📄 `nginx.conf` – Nginx config file
+    - 📄 `index.html` – Sample HTML page
+  - 📄 `Dockerfile` – Docker configuration
+  - 📄 `.gitignore` – Ignore unnecessary files
+  - 📄 `README.md` – Project documentation
 
 ## Prerequisites
 
